@@ -4,8 +4,6 @@ const server = serve({
   port: 3000
 })
 
-console.log('server started.')
-
 for await (const req of server) {
   if (req.url == '/') {
     req.respond({

@@ -15,9 +15,9 @@
             <li v-for="msg in messages">{{ msg.text }}</li>
           </ul>
         </div>
-        <form @submit="submitMessage">
+        <form @submit.prevent="submitMessage">
           <div class="input-group mt-3">
-            <input v-model="newMessage" type="text" class="form-control" ref="chatInput">
+            <input v-model="newMessage" type="text" class="form-control border-0" ref="chatInput">
             <div class="input-group-append">
               <button type="submit" class="btn btn-success">Submit</button>
             </div>
@@ -46,6 +46,10 @@
           this.newMessage = ''
           this.$refs.chatInput.focus()
         }
+      },
+
+      mounted() {
+        this.$refs.chatInput.focus()
       }
     })
   </script>
