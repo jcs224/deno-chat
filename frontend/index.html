@@ -37,19 +37,33 @@
       el: '#app',
       data: {
         newMessage: '',
-        messages: []
+        messages: [],
+        socket: null,
       },
 
       methods: {
         submitMessage() {
-          this.messages.push({ text: this.newMessage })
+          this.socket.send(JSON.stringify({ text: this.newMessage }))
           this.newMessage = ''
           this.$refs.chatInput.focus()
         }
       },
 
       mounted() {
+        var self = this
         this.$refs.chatInput.focus()
+
+        this.socket = new WebSocket('ws://localhost:3000/ws')
+        this.socket.addEventListener('open', (event) => {
+          console.log('open for business!')
+        })
+        this.socket.addEventListener('close', (event) => {
+          console.log('closed for the day...')
+        })
+        this.socket.addEventListener('message', function (event) {
+          console.log('Message from server ', event.data)
+          self.messages.push(JSON.parse(event.data))
+        })
       }
     })
   </script>
